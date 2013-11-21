@@ -1,4 +1,6 @@
 Loginform
 =========
-touch Readme.txt
+touch index.html
+touch demo.js
+
 
