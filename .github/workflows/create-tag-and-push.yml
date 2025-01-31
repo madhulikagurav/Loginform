@@ -1,0 +1,34 @@
+name: Create Tag and Push
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Create and Push Tag
+        run: |
+          # Ensure we are on the master branch (default branch for this repo)
+          git checkout master
+
+          # Get the latest changes
+          git pull
+
+          # Generate the tag name using the current date and version number
+          TAG="rr-$(date +'%Y%m%d')-v1.0"
+
+          # Create an annotated tag with a message
+          git tag -a $TAG -m "Stable version for Loginform build"
+
+          # Push the tag to the remote repository
+          git push origin $TAG
