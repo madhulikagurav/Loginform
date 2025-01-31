@@ -1,7 +1,9 @@
 name: Create Tag and Push
 
 on:
-  workflow_dispatch: 
+  push:
+    branches:
+      - master
 
 jobs:
   create-tag:
