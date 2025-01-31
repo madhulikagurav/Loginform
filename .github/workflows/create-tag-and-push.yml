@@ -27,7 +27,7 @@ jobs:
           git pull
 
           # Generate the tag name using the current date and version number
-          TAG="rr-$(date +'%Y%m%d')-v1.0"
+          TAG="rr-$(date +'%Y%m%d')-v1.01"
 
           # Create an annotated tag with a message
           git tag -a $TAG -m "Stable version for Loginform build"
