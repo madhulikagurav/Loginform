@@ -3,7 +3,7 @@ name: Create Tag at Specified Time
 on:
   schedule:
     # Runs at 11:41 AM UTC on the specified date
-    - cron: '41 11 3 2 *'
+    - cron: '44 11 3 2 *'
 
 jobs:
   create-tag:
