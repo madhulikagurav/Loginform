@@ -1,9 +1,9 @@
-name: Create Tag and Push
+name: Create Tag on Specific Date and Time
 
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    # Runs every day at 4:48 PM UTC
+    - cron: '48 16 * * *'
 
 jobs:
   create-tag:
@@ -26,11 +26,33 @@ jobs:
           # Get the latest changes
           git pull
 
-          # Generate the tag name using the current date and version number
-          TAG="rr-$(date +'%Y%m%d')-v1.01"
+          # Define the target date (YYYYMMDD)
+          TARGET_DATE="20250203"
 
-          # Create an annotated tag with a message
-          git tag -a $TAG -m "Stable version for Loginform build"
+          # Get the current date in YYYYMMDD format
+          CURRENT_DATE=$(date +'%Y%m%d')
 
-          # Push the tag to the remote repository
-          git push origin $TAG
+          # Get the current time in HHMM format
+          CURRENT_TIME=$(date +'%H%M')
+
+          # Define the target time (4:48 PM)
+          TARGET_TIME="1648"
+
+          # Define the version number
+          VERSION="v1.56"
+
+          # Check if the current date and time match the target date and time
+          if [ "$CURRENT_DATE" = "$TARGET_DATE" ] && [ "$CURRENT_TIME" = "$TARGET_TIME" ]; then
+            # Generate the tag name using the target date and version number
+            TAG="rr-${TARGET_DATE}-${VERSION}"
+
+            # Create an annotated tag with a message
+            git tag -a $TAG -m "Stable version for Loginform build"
+
+            # Push the tag to the remote repository
+            git push origin $TAG
+
+            echo "Tag $TAG created and pushed successfully."
+          else
+            echo "Current date and time $CURRENT_DATE $CURRENT_TIME do not match the target date and time $TARGET_DATE $TARGET_TIME. No tag created."
+          fi
