@@ -2,9 +2,9 @@ name: Create Tag at Specified Time
 
 on:
   schedule:
-    # Runs at 06:30 AM UTC on the specified date (3 minutes from now)
-    - cron: '30 06 4 2 *'
-  workflow_dispatch: # Allows manual triggering of the workflow
+    # Runs at 06:40 AM UTC on the specified date
+    - cron: '40 6 4 2 *'
+
 
 jobs:
   create-tag:
@@ -28,7 +28,7 @@ jobs:
           git pull
 
           # Define the version number
-          VERSION="v1.56"
+          VERSION="v1.05"
 
           # Generate the tag name using the current date and version number
           TAG="rr-$(date +'%Y%m%d')-${VERSION}"
