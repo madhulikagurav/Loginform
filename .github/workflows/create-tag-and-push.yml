@@ -34,7 +34,7 @@ jobs:
           CURRENT_DATE=$(date -u +'%Y%m%d')
 
           # Define the version number
-          VERSION="1.88"
+          VERSION="1.89"
 
           # Check if the current date is in the list and time matches
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
