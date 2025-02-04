@@ -34,13 +34,13 @@ jobs:
           CURRENT_DATE=$(date -u +'%Y%m%d')
 
           # Define the version number
-          VERSION="v1.88"
+          VERSION="1.88"
 
           # Check if the current date is in the list and time matches
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
             if [[ "$CURRENT_DATE" == "$TARGET_DATE" ]]; then
               # Generate the tag name
-              TAG="rr-${TARGET_DATE}-${VERSION}"
+              TAG="rr-${TARGET_DATE}-v${VERSION}"
 
               # Create an annotated tag
               git tag -a "$TAG" -m "Stable version for Loginform build"
