@@ -32,17 +32,13 @@ jobs:
 
           # Get the current date and time
           CURRENT_DATE=$(date -u +'%Y%m%d')
-          CURRENT_TIME=$(date -u +'%H%M')
-
-          # Define the target time (Set this to a time you want, e.g., 12:45 UTC)
-          TARGET_TIME="1247"
 
           # Define the version number
           VERSION="v1.88"
 
           # Check if the current date is in the list and time matches
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
-            if [[ "$CURRENT_DATE" == "$TARGET_DATE" && "$CURRENT_TIME" == "$TARGET_TIME" ]]; then
+            if [[ "$CURRENT_DATE" == "$TARGET_DATE" ]]; then
               # Generate the tag name
               TAG="rr-${TARGET_DATE}-${VERSION}"
 
