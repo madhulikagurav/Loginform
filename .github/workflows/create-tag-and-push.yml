@@ -26,16 +26,34 @@ jobs:
           # Get the latest changes
           git pull
 
+         # Define the target dates (YYYYMMDD) including today
+          TARGET_DATES=("$(date -u +'%Y%m%d')" "20250204" "20250218" "20250225" "20250318" "20250415" "20250422")
+
+          # Get the current date and time
+          CURRENT_DATE=$(date -u +'%Y%m%d')
+          CURRENT_TIME=$(date -u +'%H%M')
+
+          # Define target time (10 minutes from now)
+          TARGET_TIME=$(date -u -d "10 minutes" +'%H%M')
+
           # Define the version number
-          VERSION="v1.07"
+          VERSION="v1.88"
 
-          # Generate the tag name using the current date and version number
-          TAG="rr-$(date +'%Y%m%d-%H%M')-${VERSION}"
+          # Check if the current date matches any target date
+          for TARGET_DATE in "${TARGET_DATES[@]}"; do
+            if [ "$CURRENT_DATE" = "$TARGET_DATE" ] && [ "$CURRENT_TIME" = "$TARGET_TIME" ]; then
+              # Generate the tag name
+              TAG="rr-${TARGET_DATE}-${VERSION}"
 
-          # Create an annotated tag with a message
-          git tag -a $TAG -m "Stable version for Loginform build"
+              # Create an annotated tag
+              git tag -a $TAG -m "Stable version for Loginform build"
 
-          # Push the tag to the remote repository
-          git push origin $TAG
+              # Push the tag
+              git push origin $TAG
 
-          echo "Tag $TAG created and pushed successfully."
+              echo "Tag $TAG created and pushed successfully."
+              exit 0  # Stop further iterations
+            fi
+          done
+
+          echo "No matching date and time found. No tag created."
