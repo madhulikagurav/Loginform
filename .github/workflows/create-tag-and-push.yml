@@ -5,8 +5,6 @@ on:
     # Runs 3 minutes from now (update with the correct UTC time)
     - cron: '*/3 * * * *'  # Runs every 3 minutes for testing
 
-  workflow_dispatch:  # Allows manual trigger
-
 jobs:
   create-tag:
     runs-on: ubuntu-latest
