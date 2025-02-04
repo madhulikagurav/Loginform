@@ -2,8 +2,10 @@ name: Create Tag at Specified Time
 
 on:
   schedule:
-    # Runs 3 minutes from now (update with the correct UTC time)
-    - cron: '*/3 * * * *'  # Runs every 3 minutes for testing
+    # Runs every 3 minutes for testing
+    - cron: '*/3 * * * *'
+
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   create-tag:
@@ -20,13 +22,12 @@ jobs:
 
       - name: Create and Push Tag
         run: |
-          # Ensure we are on the main branch (adjust if needed)
-          git checkout master
+          # Ensure we are on the master branch
+          git fetch --all
+          git checkout master || git checkout -b master
+          git pull origin master
 
-          # Get the latest changes
-          git pull
-
-         # Define the target dates (YYYYMMDD) including today
+          # Define the target dates (YYYYMMDD) including today
           TARGET_DATES=("$(date -u +'%Y%m%d')" "20250204" "20250218" "20250225" "20250318" "20250415" "20250422")
 
           # Get the current date and time
@@ -34,22 +35,22 @@ jobs:
           CURRENT_TIME=$(date -u +'%H%M')
 
           # Define target time (10 minutes from now)
-          TARGET_TIME=$(date -u -d "10 minutes" +'%H%M')
+          TARGET_TIME=$(date -u -d "+10 minutes" "+%H%M")
 
           # Define the version number
           VERSION="v1.88"
 
           # Check if the current date matches any target date
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
-            if [ "$CURRENT_DATE" = "$TARGET_DATE" ] && [ "$CURRENT_TIME" = "$TARGET_TIME" ]; then
+            if [[ "$CURRENT_DATE" == "$TARGET_DATE" && "$CURRENT_TIME" == "$TARGET_TIME" ]]; then
               # Generate the tag name
               TAG="rr-${TARGET_DATE}-${VERSION}"
 
               # Create an annotated tag
-              git tag -a $TAG -m "Stable version for Loginform build"
+              git tag -a "$TAG" -m "Stable version for Loginform build"
 
               # Push the tag
-              git push origin $TAG
+              git push origin "$TAG"
 
               echo "Tag $TAG created and pushed successfully."
               exit 0  # Stop further iterations
