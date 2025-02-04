@@ -2,8 +2,9 @@ name: Create Tag at Specified Time
 
 on:
   schedule:
-    # Runs at 06:25 AM UTC on the specified date (3 minutes from now)
-    - cron: '25 06 4 2 *'
+    # Runs at 06:30 AM UTC on the specified date (3 minutes from now)
+    - cron: '30 06 4 2 *'
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
   create-tag:
