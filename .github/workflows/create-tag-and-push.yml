@@ -2,7 +2,7 @@ name: Create Tag at Specified Time
 
 on:
   schedule:
-    # Runs every 3 minutes for testing
+    # Runs every 3 minutes
     - cron: '*/3 * * * *'
 
   workflow_dispatch:  # Allows manual trigger
@@ -20,27 +20,27 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Create and Push Tag
+      - name: Create and Push Tag If Date & Time Match
         run: |
           # Ensure we are on the master branch
           git fetch --all
           git checkout master || git checkout -b master
           git pull origin master
 
-          # Define the target dates (YYYYMMDD) including today
-          TARGET_DATES=("$(date -u +'%Y%m%d')" "20250204" "20250218" "20250225" "20250318" "20250415" "20250422")
+          # Define the target dates (YYYYMMDD)
+          TARGET_DATES=("20250204" "20250218" "20250225" "20250318" "20250415" "20250422")
 
           # Get the current date and time
           CURRENT_DATE=$(date -u +'%Y%m%d')
           CURRENT_TIME=$(date -u +'%H%M')
 
-          # Define target time (10 minutes from now)
-          TARGET_TIME=$(date -u -d "+10 minutes" "+%H%M")
+          # Define the target time (Set this to a time you want, e.g., 12:45 UTC)
+          TARGET_TIME="1247"
 
           # Define the version number
           VERSION="v1.88"
 
-          # Check if the current date matches any target date
+          # Check if the current date is in the list and time matches
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
             if [[ "$CURRENT_DATE" == "$TARGET_DATE" && "$CURRENT_TIME" == "$TARGET_TIME" ]]; then
               # Generate the tag name
