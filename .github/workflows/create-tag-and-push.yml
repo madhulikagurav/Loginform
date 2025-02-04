@@ -2,9 +2,10 @@ name: Create Tag at Specified Time
 
 on:
   schedule:
-    # Runs at 06:40 AM UTC on the specified date
-    - cron: '40 6 4 2 *'
+    # Runs 3 minutes from now (update with the correct UTC time)
+    - cron: '*/3 * * * *'  # Runs every 3 minutes for testing
 
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   create-tag:
@@ -21,17 +22,17 @@ jobs:
 
       - name: Create and Push Tag
         run: |
-          # Ensure we are on the master branch (default branch for this repo)
+          # Ensure we are on the main branch (adjust if needed)
           git checkout master
 
           # Get the latest changes
           git pull
 
           # Define the version number
-          VERSION="v1.05"
+          VERSION="v1.07"
 
           # Generate the tag name using the current date and version number
-          TAG="rr-$(date +'%Y%m%d')-${VERSION}"
+          TAG="rr-$(date +'%Y%m%d-%H%M')-${VERSION}"
 
           # Create an annotated tag with a message
           git tag -a $TAG -m "Stable version for Loginform build"
