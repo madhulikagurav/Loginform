@@ -3,7 +3,7 @@
     $(document).ready(function () {
                 
           
-               //validation rules
+               //validation rules test testing
                 //by default it will append a <label class="error> element to the invalid input
                 //and will add a "error" class to the input
 
