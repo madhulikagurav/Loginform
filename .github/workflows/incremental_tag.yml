@@ -18,11 +18,12 @@ jobs:
         run: |
           # Get the latest pushed tag that triggered this workflow
           CURRENT_TAG=${GITHUB_REF#refs/tags/}
-          
+          echo $CURRENT_TAG;
           # Extract the base part (date) and version number
           BASE_TAG=$(echo $CURRENT_TAG | sed -E 's/(.+)-v[0-9]+\.[0-9]+$/\1/')
           CURRENT_VERSION=$(echo $CURRENT_TAG | grep -oE 'v[0-9]+\.[0-9]+$')
-          
+          echo $CURRENT_VERSION;
+          echo $BASE_TAG;
           # Extract major and minor version numbers
           MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1 | tr -d 'v')
           MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
