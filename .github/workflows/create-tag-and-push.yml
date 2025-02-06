@@ -28,19 +28,22 @@ jobs:
           git pull origin master
 
           # Define the target dates (YYYYMMDD)
-          TARGET_DATES=("20250204" "20250218" "20250225" "20250318" "20250415" "20250422")
+          TARGET_DATES=("20250206" "20250218" "20250225" "20250318" "20250415" "20250422")
 
           # Get the current date and time
           CURRENT_DATE=$(date -u +'%Y%m%d')
 
           # Define the version number
-          VERSION="1.89"
+          VERSION="1.11"
 
           # Check if the current date is in the list and time matches
           for TARGET_DATE in "${TARGET_DATES[@]}"; do
             if [[ "$CURRENT_DATE" == "$TARGET_DATE" ]]; then
-              # Generate the tag name
-              TAG="rr-${TARGET_DATE}-v${VERSION}"
+            # Increment TARGET_DATE by one day
+                NEXT_DATE=$(date -d "${TARGET_DATE} +1 day" +'%Y%m%d')
+
+                # Generate the tag name with the Release date
+                  TAG="rr-${NEXT_DATE}-v${VERSION}"
 
               # Create an annotated tag
               git tag -a "$TAG" -m "Stable version for Loginform build"
