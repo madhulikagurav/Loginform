@@ -3,7 +3,7 @@ name: Create Tag at Specified Time
 on:
   schedule:
     # Runs every 3 minutes
-    - cron: '*/3 * * * *'
+    - #cron: '*/3 * * * *'
 
   workflow_dispatch:  # Allows manual trigger
 
