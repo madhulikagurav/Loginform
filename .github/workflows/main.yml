@@ -1,0 +1,61 @@
+name: Create Tag at Specified Time
+
+on:
+  schedule:
+    # Runs every 3 minutes
+    - cron: '*/3 * * * *'
+
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Create and Push Tag If Date & Time Match
+        run: |
+          # Ensure we are on the master branch
+          git fetch --all
+          git checkout master || git checkout -b master
+          git pull origin master
+
+          # Define the target dates (YYYYMMDD)
+          TARGET_DATES=("20250210" "20250218" "20250225" "20250318" "20250415" "20250422")
+
+          # Get the current date and time
+          CURRENT_DATE=$(date -u +'%Y%m%d')
+          CURRENT_TIME=$(date -u +'%H%M')
+
+          # Define the target time (HHMM)
+          TARGET_TIME="1130"
+
+          # Define the version number
+          VERSION="1.12"
+
+          # Check if the current date is in the list and time matches
+          if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]] && [[ "${CURRENT_TIME}" == "${TARGET_TIME}" ]]; then
+            # Increment TARGET_DATE by one day
+            NEXT_DATE=$(date -d "${CURRENT_DATE} +1 day" +'%Y%m%d')
+
+            # Generate the tag name with the Release date
+            TAG="rp-${NEXT_DATE}-v${VERSION}"
+
+            # Create an annotated tag
+            git tag -a "$TAG" -m "Stable version for Loginform build"
+
+            # Push the tag
+            git push origin "$TAG"
+
+            echo "Tag $TAG created and pushed successfully."
+            exit 0  # Stop further iterations
+          fi
+
+          echo "No matching date and time found. No tag created."
