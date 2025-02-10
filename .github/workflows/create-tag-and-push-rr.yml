@@ -3,7 +3,7 @@ name: Create Tag at Specified Time for rr
 on:
   schedule:
     # Runs every 3 minutes
-    - #cron: '*/3 * * * *'
+    - cron: '*/3 * * * *'
 
   workflow_dispatch:  # Allows manual trigger
 
@@ -37,22 +37,21 @@ jobs:
           VERSION="1.12"
 
           # Check if the current date is in the list and time matches
-          
-            if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]]; then
+          if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]]; then
             # Increment TARGET_DATE by one day
-                NEXT_DATE=$(date -d "${TARGET_DATE} +1 day" +'%Y%m%d')
+            NEXT_DATE=$(date -d "${CURRENT_DATE} +1 day" +'%Y%m%d')
 
-                # Generate the tag name with the Release date
-                  TAG="rr-${NEXT_DATE}-v${VERSION}"
+            # Generate the tag name with the Release date
+            TAG="rr-${NEXT_DATE}-v${VERSION}"
 
-              # Create an annotated tag
-              git tag -a "$TAG" -m "Stable version for Loginform build"
+            # Create an annotated tag
+            git tag -a "$TAG" -m "Stable version for Loginform build"
 
-              # Push the tag
-              git push origin "$TAG"
+            # Push the tag
+            git push origin "$TAG"
 
-              echo "Tag $TAG created and pushed successfully."
-              exit 0  # Stop further iterations
-            fi
-   
+            echo "Tag $TAG created and pushed successfully."
+            exit 0  # Stop further iterations
+          fi
+
           echo "No matching date and time found. No tag created."
