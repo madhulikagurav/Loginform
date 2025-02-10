@@ -38,15 +38,13 @@ jobs:
           # Define the version number
           VERSION="1.0"
          
-		  # Generate the tag name with the Release date
-		  TAG="sr-${CURRENT_DATE}-v${VERSION}"
+          # Generate the tag name with the Release date
+          TAG="sr-${CURRENT_DATE}-v${VERSION}"
 
-		  # Create an annotated tag
-		  git tag -a $TAG -m "Stable version for Advanced Badgeting Standard Release Build"
+          # Create an annotated tag
+          git tag -a $TAG -m "Stable version for Advanced Badgeting Standard Release Build"
 
-		  # Push the tag
-		  git push origin $TAG
+          # Push the tag
+          git push origin $TAG
 
-		  echo "Tag $TAG created and pushed successfully."
-
-      echo "No matching date found. No tag created."
+          echo "Tag $TAG created and pushed successfully."
