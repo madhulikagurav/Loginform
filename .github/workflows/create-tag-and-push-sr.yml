@@ -1,4 +1,4 @@
-name: Develop to Standard Release
+name: Create Tag at Specified Time for sr
 
 on:
   schedule:
