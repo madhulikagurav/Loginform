@@ -1,4 +1,4 @@
-name: Create Tag at Specified Time
+name: Create Tag at Specified Time for rr
 
 on:
   schedule:
