@@ -1,9 +1,9 @@
-name: Create Tag at Specified Time for
+name: Create Tag at Specified Time for RP
 
 on:
   schedule:
     # Runs every 3 minutes
-    - cron: '*/4 * * * *'
+    - cron: '*/2 * * * *'
 
   workflow_dispatch:  # Allows manual trigger
 
@@ -38,7 +38,7 @@ jobs:
           TARGET_TIME="1130"
 
           # Define the version number
-          VERSION="1.45
+          VERSION="1.12"
 
           # Check if the current date is in the list and time matches
           if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]] && [[ "${CURRENT_TIME}" == "${TARGET_TIME}" ]]; then
