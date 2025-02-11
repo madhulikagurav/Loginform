@@ -1,9 +1,9 @@
-name: Create Tag at Specified Time for sr
+name: Develop to Standard Release
 
 on:
   schedule:
-    # Runs on specific dates in 2025 at 07:00 AM UTC (12:30 PM IST)
-    - cron: '0 7 19 2 *'
+    # Runs on specific Code Freeze Start Dates in Standard Release 2025 at 07:00 AM UTC (12:30 PM IST)
+    - cron: '0 7 11 2 *'
     - cron: '0 7 16 4 *'
     - cron: '0 7 17 9 *'
     - cron: '0 7 12 11 *'
@@ -23,46 +23,54 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Create Tag If Date Matches
+      - name: Create Tag For Standard Release
         run: |
           # Ensure we are on the correct branch
           git fetch --all
-          git checkout master
+          git checkout develop
 
           # Get the latest changes
-          git pull origin master
-                    
+          git pull origin develop
+          
           # Define the target dates (YYYYMMDD)
-          TARGET_DATES=("20250219" "20250416" "20250917" "20251211" )
+          TARGET_DATES=("20250219" "20250416" "20250917" "20251211")
                     
           # Get the current date in YYYYMMDD format
           CURRENT_DATE=$(date -u +'%Y%m%d')  # Use UTC time
 
           # Define the version number
           VERSION="1.0"
-          
+
           # Check if the current date matches any target date
-          if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]]; then
-          
-          # Increment current date by 3 Week Release date
-            NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks" +'%Y%m%d')
-            
-           if [[ "${CURRENT_DATE}" == "20251211" ]]; then
-                # Increment current date by 3 Week Release date
-                NEXT_DATE=$(date -d "${CURRENT_DATE} +4 weeks" +'%Y%m%d')
-            fi
+          MATCH_FOUND=false
+          for DATE in "${TARGET_DATES[@]}"; do
+              if [[ "$DATE" == "$CURRENT_DATE" ]]; then
+                  MATCH_FOUND=true
+                  break
+              fi
+          done
+
+          if [[ "$MATCH_FOUND" == true ]]; then
+              # Default increment is 3 weeks
+              NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks" +'%Y%m%d')
+
+              # Exception for December release
+              if [[ "$CURRENT_DATE" == "20251211" ]]; then  
+                  NEXT_DATE=$(date -d "${CURRENT_DATE} +4 weeks" +'%Y%m%d')
+              fi
          
-          # Generate the tag name with the Release date
-          TAG="sr-${NEXT_DATE}-v${VERSION}"
+              # Generate the tag name with the release date
+              TAG="sr-${NEXT_DATE}-v${VERSION}"
 
-          # Create an annotated tag
-          git tag -a $TAG -m "Stable version for Advanced Budgeting Standard Release Build"
+              # Create an annotated tag
+              git tag -a "$TAG" -m "Stable version for Advanced Budgeting Standard Release Build"
 
-          # Push the tag
-          git push origin $TAG
+              # Push the tag
+              git push origin "$TAG"
 
-          echo "Tag $TAG created and pushed successfully."
-         exit 0
+              echo "Tag $TAG created and pushed successfully."
+              exit 0
           fi
 
-          echo "No matching date found. No tag created."  
+          echo "No matching date found. No tag created."
+          exit 0
