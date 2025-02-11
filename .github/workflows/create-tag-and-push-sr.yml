@@ -27,13 +27,13 @@ jobs:
         run: |
           # Ensure we are on the correct branch
           git fetch --all
-          git checkout develop
+          git checkout master
 
           # Get the latest changes
-          git pull origin develop
+          git pull origin master
           
           # Define the target dates (YYYYMMDD)
-          TARGET_DATES=("20250219" "20250416" "20250917" "20251211")
+          TARGET_DATES=("20250211" "20250416" "20250917" "20251211")
                     
           # Get the current date in YYYYMMDD format
           CURRENT_DATE=$(date -u +'%Y%m%d')  # Use UTC time
