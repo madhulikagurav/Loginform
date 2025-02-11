@@ -32,19 +32,37 @@ jobs:
           # Get the latest changes
           git pull origin master
                     
+          # Define the target dates (YYYYMMDD)
+          TARGET_DATES=("20250219" "20250416" "20250917" "20251211" )
+                    
           # Get the current date in YYYYMMDD format
           CURRENT_DATE=$(date -u +'%Y%m%d')  # Use UTC time
 
           # Define the version number
           VERSION="1.0"
+          
+          # Check if the current date matches any target date
+          if [[ " ${TARGET_DATES[@]} " =~ " ${CURRENT_DATE} " ]]; then
+          
+          # Increment current date by 3 Week Release date
+            NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks" +'%Y%m%d')
+            
+           if [[ "${CURRENT_DATE}" == "20251211" ]]; then
+                # Increment current date by 3 Week Release date
+                NEXT_DATE=$(date -d "${CURRENT_DATE} +4 weeks" +'%Y%m%d')
+            fi
          
           # Generate the tag name with the Release date
-          TAG="sr-${CURRENT_DATE}-v${VERSION}"
+          TAG="sr-${NEXT_DATE}-v${VERSION}"
 
           # Create an annotated tag
-          git tag -a $TAG -m "Stable version for Advanced Badgeting Standard Release Build"
+          git tag -a $TAG -m "Stable version for Advanced Budgeting Standard Release Build"
 
           # Push the tag
           git push origin $TAG
 
           echo "Tag $TAG created and pushed successfully."
+         exit 0
+          fi
+
+          echo "No matching date found. No tag created."  
