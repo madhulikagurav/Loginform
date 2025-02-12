@@ -42,8 +42,8 @@ jobs:
           VERSION="1.19"
 
        # Check if CURRENT_DATE is in TARGET_DATES array
-            if [[ " ${TARGET_DATES[*]} " =~ " ${CURRENT_DATE} " ]]; then
-                               
+          if [[ " ${TARGET_DATES[*]} " =~ " ${CURRENT_DATE} " ]]; then
+                              
               # Exception for December release
               if [[ "$CURRENT_DATE" == "20251211" ]]; then 
               
