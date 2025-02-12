@@ -2,7 +2,7 @@ name: Develop to Standard Release
 
 on:
   schedule:
-    # Runs on specific Code Freeze Start Dates in Standard Release  2025 at 07:00 AM UTC (12:30 PM IST)
+    # Runs on specific Code Freeze Start Dates in Standard Release 2025 at 07:00 AM UTC (12:30 PM IST)
     - cron: '0 7 12 2 *'
     - cron: '0 7 16 4 *'
     - cron: '0 7 17 9 *'
@@ -28,28 +28,24 @@ jobs:
           # Ensure we are on the correct branch
           git fetch --all
           git checkout master
-
-          # Get the latest changes
           git pull origin master
           
           # Define the target dates (YYYYMMDD)
-          TARGET_DATES=("20250211" "20250416" "20250917" "20251211")
-                    
+          TARGET_DATES=("20250212" "20250416" "20250917" "20251211")
+
           # Get the current date in YYYYMMDD format
           CURRENT_DATE=$(date -u +'%Y%m%d')  # Use UTC time
 
           # Define the version number
           VERSION="1.19"
 
-       # Check if CURRENT_DATE is in TARGET_DATES array
+          # Check if CURRENT_DATE is in TARGET_DATES array
           if [[ " ${TARGET_DATES[*]} " =~ " ${CURRENT_DATE} " ]]; then
-                              
               # Exception for December release
-              if [[ "$CURRENT_DATE" == "20251211" ]]; then 
-              
+              if [[ "$CURRENT_DATE" == "20251211" ]]; then  
                   NEXT_DATE=$(date -d "${CURRENT_DATE} +4 weeks" +'%Y%m%d')
               else
-                    # Default increment is 3 weeks
+                  # Default increment is 3 weeks
                   NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks" +'%Y%m%d')
               fi
 
