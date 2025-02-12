@@ -2,11 +2,11 @@ name: Develop to Standard Release
 
 on:
   schedule:
-    # Runs on specific Code Freeze Start Dates in Standard Release 2025 at 07:00 AM UTC (12:30 PM IST)
-    - cron: '0 7 11 2 *'
+    # Runs on specific Code Freeze Start Dates in Standard Release  2025 at 07:00 AM UTC (12:30 PM IST)
+    - cron: '0 7 19 2 *'
     - cron: '0 7 16 4 *'
     - cron: '0 7 17 9 *'
-    - cron: '0 7 11 12 *'
+    - cron: '0 7 12 11 *'
 
   workflow_dispatch:  # Allows manual trigger
 
