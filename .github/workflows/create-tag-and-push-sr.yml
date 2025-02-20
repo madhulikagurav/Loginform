@@ -42,8 +42,10 @@ jobs:
           # Check if CURRENT_DATE is in TARGET_DATES array
           if [[ " ${TARGET_DATES[*]} " =~ " ${CURRENT_DATE} " ]]; then
               # Exception for December release
-              if [[ "$CURRENT_DATE" == "20251211" ]]; then  
+             if [[ "$CURRENT_DATE" == "20251211" ]]; then  
                   NEXT_DATE=$(date -d "${CURRENT_DATE} +4 weeks -1 day" +'%Y%m%d')
+              elif [[ "$CURRENT_DATE" == "20250220" ]]; then
+                  NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks -2 days" +'%Y%m%d')    
               else
                   # Default increment is 3 weeks
                   NEXT_DATE=$(date -d "${CURRENT_DATE} +3 weeks -1 day" +'%Y%m%d')
